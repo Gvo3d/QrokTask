@@ -42,7 +42,6 @@ public class JDBCConfiguration implements TransactionManagementConfigurer {
     public DataSource dataSource() {
         Locale.setDefault(Locale.ENGLISH);
         try {
-            System.out.println("Loading " + driver);
             Class.forName(driver);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();

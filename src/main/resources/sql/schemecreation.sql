@@ -15,7 +15,7 @@ CREATE TABLE Authors (
     Author_id INTEGER NOT NULL AUTO_INCREMENT,
     First_name VARCHAR(40) NOT NULL,
     Last_name VARCHAR(40) NOT NULL,
-    Sex INTEGER NOT NULL DEFAULT 0,
+    Sex VARCHAR(40) NOT NULL,
     Birth_date TIMESTAMP NOT NULL,
     PRIMARY KEY (Author_id) );
 
@@ -24,7 +24,7 @@ CREATE TABLE Books (
     Book_id INTEGER NOT NULL AUTO_INCREMENT,
     Title VARCHAR(40) NOT NULL,
     ISBN VARCHAR(40) NOT NULL,
-    Genre INTEGER NOT NULL DEFAULT 0,
+    Genre VARCHAR(40) NOT NULL,
     PRIMARY KEY (Book_id) );
 
 DROP TABLE IF EXISTS `authors_to_rewards`;
