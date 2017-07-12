@@ -1,4 +1,4 @@
-USE `qroktask`;
+--USE `qroktask`;
 
 insert into Rewards (Reward_year, Reward_title) values (2015, 'Reward_1');
 insert into Rewards (Reward_year, Reward_title) values (2012, 'Reward_2');

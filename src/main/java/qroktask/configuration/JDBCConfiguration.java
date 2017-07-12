@@ -1,27 +1,28 @@
 package qroktask.configuration;
 
-import org.hsqldb.util.DatabaseManagerSwing;
+import org.h2.tools.Server;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
+import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.TransactionManagementConfigurer;
 
-import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
+import java.sql.SQLException;
 import java.util.Locale;
+import java.util.Properties;
 
-@Profile("h2")
 @Configuration
 @EnableTransactionManagement
+@EnableJpaRepositories(basePackages = {"qroktask"})
 public class JDBCConfiguration implements TransactionManagementConfigurer {
 
     @Value("${dataSource.driverClassName}")
@@ -30,15 +31,16 @@ public class JDBCConfiguration implements TransactionManagementConfigurer {
     private String url;
     @Value("${dataSource.username}")
     private String username;
-    @Value("${dataSource.password}")
-    private String password;
-
-    public JDBCConfiguration() {
-        Locale.setDefault(Locale.ENGLISH);
-    }
+    @Value("${dataSource.dialect}")
+    private String dialect;
+    @Value("${dataSource.hbm2ddlAuto}")
+    private String hbm2ddlAuto;
+    @Value("${dataSource.package}")
+    private String packageToScan;
 
     @Bean
     public DataSource dataSource() {
+        Locale.setDefault(Locale.ENGLISH);
         try {
             System.out.println("Loading " + driver);
             Class.forName(driver);
@@ -55,30 +57,30 @@ public class JDBCConfiguration implements TransactionManagementConfigurer {
         return db;
     }
 
-    @Bean
-    public NamedParameterJdbcTemplate getNamedParameterJdbcTemplate() {
-        return new NamedParameterJdbcTemplate(dataSource());
+    // Start WebServer, access http://localhost:8082
+    @Bean(initMethod = "start", destroyMethod = "stop")
+    public Server startDBWebManager() throws SQLException {
+        return Server.createWebServer();
     }
 
-    @Bean
+    @Bean(name = "transactionManager")
     public PlatformTransactionManager annotationDrivenTransactionManager() {
-        DataSourceTransactionManager dataSourceTransactionManager = new DataSourceTransactionManager();
-        dataSourceTransactionManager.setDataSource(dataSource());
-        return dataSourceTransactionManager;
+        return new JpaTransactionManager();
     }
 
     @Bean
-    NamedParameterJdbcTemplate namedParameterJdbcTemplate() {
-        return new NamedParameterJdbcTemplate(dataSource());
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+        LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
+        entityManagerFactoryBean.setDataSource(dataSource());
+        entityManagerFactoryBean.setPackagesToScan(packageToScan);
+        entityManagerFactoryBean.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
+
+        Properties jpaProperties = new Properties();
+        jpaProperties.put(org.hibernate.cfg.Environment.DIALECT, dialect);
+        jpaProperties.put(org.hibernate.cfg.Environment.HBM2DDL_AUTO, hbm2ddlAuto);
+        entityManagerFactoryBean.setJpaProperties(jpaProperties);
+        entityManagerFactoryBean.setDataSource(dataSource());
+        return entityManagerFactoryBean;
     }
 
-    @Bean
-    JdbcTemplate jdbcTemplate() {
-        return new JdbcTemplate(dataSource());
-    }
-
-    @PostConstruct
-    public void startDBManager() {
-        DatabaseManagerSwing.main(new String[] { "--url", "jdbc:h2:mem:testdb", "--user", "sa", "--password", "" });
-    }
 }

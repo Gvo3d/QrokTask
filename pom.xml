@@ -175,6 +175,10 @@
             <artifactId>log4jdbc-remix</artifactId>
             <version>${log4jdbc-remix.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+        </dependency>
 
     </dependencies>
 
