@@ -13,8 +13,7 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import qroktask.Application;
-import qroktask.services.RewardService;
-import qroktask.services.RewardServiceImpl;
+import qroktask.services.*;
 
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
@@ -114,11 +113,17 @@ public class TestDaoConfig {
         return new JpaTransactionManager();
     }
 
-    @Bean
-    RewardService rewardService() { return new RewardServiceImpl(); }
-
     @PostConstruct
     public void startDBManager() {
         DatabaseManagerSwing.main(new String[] { "--url", url, "--user", username, "--password", "" });
     }
+
+    @Bean
+    RewardService rewardService() { return new RewardServiceImpl(); }
+
+    @Bean
+    AuthorsService authorsService() { return new AuthorsServiceImpl(); }
+
+    @Bean
+    BooksService booksService() { return new BooksServiceImpl(); }
 }
