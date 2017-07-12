@@ -1,5 +1,6 @@
 package qroktask.configuration;
 
+import org.hsqldb.util.DatabaseManagerSwing;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,6 +15,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.TransactionManagementConfigurer;
 
+import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 import java.util.Locale;
 
@@ -54,6 +56,11 @@ public class JDBCConfiguration implements TransactionManagementConfigurer {
     }
 
     @Bean
+    public NamedParameterJdbcTemplate getNamedParameterJdbcTemplate() {
+        return new NamedParameterJdbcTemplate(dataSource());
+    }
+
+    @Bean
     public PlatformTransactionManager annotationDrivenTransactionManager() {
         DataSourceTransactionManager dataSourceTransactionManager = new DataSourceTransactionManager();
         dataSourceTransactionManager.setDataSource(dataSource());
@@ -68,5 +75,10 @@ public class JDBCConfiguration implements TransactionManagementConfigurer {
     @Bean
     JdbcTemplate jdbcTemplate() {
         return new JdbcTemplate(dataSource());
+    }
+
+    @PostConstruct
+    public void startDBManager() {
+        DatabaseManagerSwing.main(new String[] { "--url", "jdbc:h2:mem:testdb", "--user", "sa", "--password", "" });
     }
 }
