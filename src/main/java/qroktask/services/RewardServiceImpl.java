@@ -18,4 +18,9 @@ public class RewardServiceImpl implements RewardService {
     public Iterable<Reward> getAllRewards() {
         return rewardRepository.findAll();
     }
+
+    @Override
+    public Reward getOneReward(Integer id) {
+        return rewardRepository.findOne(id);
+    }
 }

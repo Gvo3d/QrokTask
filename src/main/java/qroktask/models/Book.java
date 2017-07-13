@@ -1,5 +1,7 @@
 package qroktask.models;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import qroktask.dao.JacksonMappingMarker;
 import qroktask.models.support.Genre;
 
 import javax.persistence.*;
@@ -14,22 +16,27 @@ public class Book {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     @Column(name = "Book_id")
+    @JsonView(JacksonMappingMarker.List.class)
     private int id;
 
     @Column(name = "Title")
+    @JsonView(JacksonMappingMarker.List.class)
     private String title;
 
     @Column(name = "ISBN")
+    @JsonView(JacksonMappingMarker.List.class)
     private String isbn;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "Genre")
+    @JsonView(JacksonMappingMarker.List.class)
     private Genre genre;
 
     @ManyToMany(fetch = FetchType.LAZY, targetEntity = Author.class)
     @JoinTable(name = "books_to_authors",
             joinColumns = @JoinColumn(name = "Magazine_book_id"),
             inverseJoinColumns = @JoinColumn(name = "Magazine_author_id"))
+    @JsonView(JacksonMappingMarker.Data.class)
     private Set<Author> authors;
 
     public int getId() {

@@ -7,4 +7,5 @@ import qroktask.models.Reward;
  */
 public interface RewardService {
     public Iterable<Reward> getAllRewards();
+    public Reward getOneReward(Integer id);
 }

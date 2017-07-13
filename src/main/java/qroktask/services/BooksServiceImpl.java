@@ -15,4 +15,9 @@ public class BooksServiceImpl implements BooksService {
     public Iterable<Book> getAllBooks() {
         return booksRepository.findAll();
     }
+
+    @Override
+    public Book getOneBook(Integer id) {
+        return booksRepository.findOne(id);
+    }
 }

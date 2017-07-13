@@ -14,7 +14,7 @@ import org.springframework.web.servlet.config.annotation.*;
 @Log4j
 @Configuration
 @EnableWebMvc
-@ComponentScan({ "qroktast" })
+@ComponentScan({ "qroktask" })
 public class WebMVCConfigurer extends WebMvcConfigurerAdapter {
 
     @Override

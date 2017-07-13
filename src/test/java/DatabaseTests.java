@@ -44,6 +44,14 @@ public class DatabaseTests extends AbstractTest{
     }
 
     @Test
+    public void testFindAllAuthorsFetchAll() {
+        Iterable<Author> iterable = authorsService.getAllAuthorsFetchAll();
+        for (Author author: iterable){
+            System.out.println(author.toStringWithAll());
+        }
+    }
+
+    @Test
     public void testFindAllBooks() {
         Iterable<Book> iterable = booksService.getAllBooks();
         for (Book book: iterable){

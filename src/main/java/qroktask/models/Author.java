@@ -1,5 +1,7 @@
 package qroktask.models;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import qroktask.dao.JacksonMappingMarker;
 import qroktask.models.support.Sex;
 
 import javax.persistence.*;
@@ -10,36 +12,45 @@ import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
 @Table(name = "Authors")
+//@NamedEntityGraph(name = "Authors.fetchAll",
+//        attributeNodes = {@NamedAttributeNode("books"), @NamedAttributeNode("rewards")})
 public class Author {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
     @Column(name = "Author_id")
+    @JsonView(JacksonMappingMarker.List.class)
     private int id;
 
     @Column(name = "First_name")
+    @JsonView(JacksonMappingMarker.List.class)
     private String firstName;
 
     @Column(name = "Last_name")
+    @JsonView(JacksonMappingMarker.List.class)
     private String lastName;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "Sex")
+    @JsonView(JacksonMappingMarker.List.class)
     private Sex sex;
 
     @Column(name = "Birth_date")
+    @JsonView(JacksonMappingMarker.List.class)
     private Date birthDate;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Book.class)
     @JoinTable(name = "books_to_authors",
             joinColumns = @JoinColumn(name = "Magazine_author_id"),
             inverseJoinColumns = @JoinColumn(name = "Magazine_book_id"))
+    @JsonView(JacksonMappingMarker.Data.class)
     private Set<Book> books;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Reward.class)
     @JoinTable(name = "authors_to_rewards",
             joinColumns = @JoinColumn(name = "Magazine_author_id"),
             inverseJoinColumns = @JoinColumn(name = "Magazine_reward_id"))
+    @JsonView(JacksonMappingMarker.Data.class)
     private Set<Reward> rewards;
 
     public int getId() {
@@ -130,6 +141,18 @@ public class Author {
                 ", lastName='" + lastName + '\'' +
                 ", sex=" + sex +
                 ", birthDate=" + birthDate +
+                '}';
+    }
+
+    public String toStringWithAll() {
+        return "Author{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", sex=" + sex +
+                ", birthDate=" + birthDate +
+                ", books=" + books +
+                ", rewards=" + rewards +
                 '}';
     }
 }
