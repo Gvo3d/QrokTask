@@ -1,6 +1,5 @@
 package qroktask.configuration;
 
-import org.h2.tools.Server;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,7 +15,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.TransactionManagementConfigurer;
 
 import javax.sql.DataSource;
-import java.sql.SQLException;
 import java.util.Locale;
 import java.util.Properties;
 
@@ -54,12 +52,6 @@ public class JDBCConfiguration implements TransactionManagementConfigurer {
                 .addScript("sql/datainsertion.sql")
                 .build();
         return db;
-    }
-
-    // Start WebServer, access http://localhost:8082
-    @Bean(initMethod = "start", destroyMethod = "stop")
-    public Server startDBWebManager() throws SQLException {
-        return Server.createWebServer();
     }
 
     @Bean(name = "transactionManager")
