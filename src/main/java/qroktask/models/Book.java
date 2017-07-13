@@ -5,6 +5,7 @@ import qroktask.support.JacksonMappingMarker;
 import qroktask.models.support.Genre;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 import static javax.persistence.GenerationType.IDENTITY;
@@ -37,7 +38,7 @@ public class Book {
             joinColumns = @JoinColumn(name = "Magazine_book_id"),
             inverseJoinColumns = @JoinColumn(name = "Magazine_author_id"))
     @JsonView(JacksonMappingMarker.Data.class)
-    private Set<Author> authors;
+    private Set<Author> authors = new HashSet<>();
 
     public int getId() {
         return id;
@@ -77,6 +78,14 @@ public class Book {
 
     public void setAuthors(Set<Author> authors) {
         this.authors = authors;
+    }
+
+    public void addAuthor(Author author){
+        this.authors.add(author);
+    }
+
+    public void removeAuthor(Author author){
+        this.authors.remove(author);
     }
 
     @Override

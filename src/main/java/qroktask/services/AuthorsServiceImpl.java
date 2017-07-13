@@ -43,4 +43,36 @@ public class AuthorsServiceImpl implements AuthorsService {
         Optional<Author> result = authorsRepository.getAuthorFetchAll(entityManager,id);
         return result.orElse(null);
     }
+
+    @Override
+    public Author create(Author author) {
+        if (null!= author) {
+            return authorsRepository.save(author);
+        } else return null;
+    }
+
+    @Override
+    public Author update(Author author) {
+        if (null!= author) {
+            return authorsRepository.saveAndFlush(author);
+        } else return null;
+    }
+
+    @Override
+    public Boolean exists(Integer id) {
+        if (null != id) {
+            return authorsRepository.exists(id);
+        } else return false;
+    }
+
+    @Override
+    public Boolean delete(Integer id) {
+        if (null != id) {
+            if (authorsRepository.exists(id)) {
+                authorsRepository.delete(id);
+                return true;
+            }
+        }
+        return false;
+    }
 }

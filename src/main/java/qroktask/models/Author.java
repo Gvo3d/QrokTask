@@ -6,6 +6,7 @@ import qroktask.models.support.Sex;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 import static javax.persistence.GenerationType.IDENTITY;
@@ -44,14 +45,14 @@ public class Author {
             joinColumns = @JoinColumn(name = "Magazine_author_id"),
             inverseJoinColumns = @JoinColumn(name = "Magazine_book_id"))
     @JsonView(JacksonMappingMarker.Data.class)
-    private Set<Book> books;
+    private Set<Book> books = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Reward.class)
     @JoinTable(name = "authors_to_rewards",
             joinColumns = @JoinColumn(name = "Magazine_author_id"),
             inverseJoinColumns = @JoinColumn(name = "Magazine_reward_id"))
     @JsonView(JacksonMappingMarker.Data.class)
-    private Set<Reward> rewards;
+    private Set<Reward> rewards = new HashSet<>();
 
     public int getId() {
         return id;
@@ -101,8 +102,24 @@ public class Author {
         this.books = books;
     }
 
+    public void addBook(Book book){
+        this.books.add(book);
+    }
+
+    public void removeBook(Book book){
+        this.books.remove(book);
+    }
+
     public Set<Reward> getRewards() {
         return rewards;
+    }
+
+    public void addReward(Reward reward) {
+        this.rewards.add(reward);
+    }
+
+    public void removeReward(Reward reward){
+        this.rewards.remove(reward);
     }
 
     public void setRewards(Set<Reward> rewards) {

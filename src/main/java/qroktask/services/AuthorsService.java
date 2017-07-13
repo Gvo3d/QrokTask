@@ -7,7 +7,8 @@ public interface AuthorsService {
     Iterable<Author> getAllAuthorsFetchAll();
     Author getOneAuthor(Integer id);
     Author getOneAuthorFetchAll(Integer id);
-    Author createOrUpdateAuthor(Author author);
+    Author create(Author author);
+    Author update(Author author);
     Boolean exists(Integer id);
     Boolean delete(Integer id);
 }
