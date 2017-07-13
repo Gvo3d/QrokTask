@@ -19,4 +19,8 @@ public class AuthForm {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public boolean validate(){
+        return (null!=username && null!=password);
+    }
 }

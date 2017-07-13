@@ -16,7 +16,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import qroktask.components.CustomAuthProvider;
 
 @Configuration
@@ -38,14 +37,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    BCryptPasswordEncoder encoder() {
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(11);
-        return encoder;
-    }
-
-    @Bean
     AuthenticationProvider authenticationProvider(){
-        CustomAuthProvider authenticationProvider = new CustomAuthProvider(encoder());
+        CustomAuthProvider authenticationProvider = new CustomAuthProvider();
         return authenticationProvider;
     }
 

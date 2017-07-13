@@ -11,7 +11,7 @@ import qroktask.security.SecurityService;
 /**
  * Created by Gvozd on 13.07.2017.
  */
-@ContextConfiguration(classes = {TestDaoConfig.class})
+@ContextConfiguration(classes = {TestSecurityConfig.class})
 @TestExecutionListeners({DependencyInjectionTestExecutionListener.class,
         TransactionalTestExecutionListener.class,
         DbUnitTestExecutionListener.class})
@@ -23,8 +23,8 @@ public class SecurityTests extends AbstractTest{
     @Test
     public void authorize(){
         AuthForm form = new AuthForm();
-        form.setUsername("user");
-        form.setPassword("qwerty");
+        form.setUsername("${user.login}");
+        form.setPassword("${user.password}");
         boolean result = securityService.authorize(form);
         System.out.println("result="+result);
     }

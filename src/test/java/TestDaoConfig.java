@@ -10,15 +10,9 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
-import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import qroktask.Application;
-import qroktask.components.CustomAuthProvider;
-import qroktask.security.AuthorizedUser;
-import qroktask.security.SecurityService;
-import qroktask.security.SecurityServiceImpl;
 import qroktask.services.*;
 
 import javax.annotation.PostConstruct;
@@ -27,10 +21,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.HashSet;
 import java.util.Locale;
 import java.util.Properties;
-import java.util.Set;
 
 /**
  * Created by Gvozd on 12.07.2017.
@@ -135,24 +127,14 @@ public class TestDaoConfig {
     @Bean
     BooksService booksService() { return new BooksServiceImpl(); }
 
-    @Bean
-    SecurityService securityService(){
-        return new SecurityServiceImpl();
-    }
-
-    @Bean
-    BCryptPasswordEncoder encoder() {
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(11);
-        return encoder;
-    }
-
-    @Bean
-    AuthenticationProvider authenticationProvider(){
-        CustomAuthProvider provider = new CustomAuthProvider(encoder());
-        Set<AuthorizedUser> users = new HashSet<>();
-        users.add(new AuthorizedUser("user", "qwerty"));
-        users.add(new AuthorizedUser("admin", "adminpass"));
-        provider.setUsers(users);
-        return provider;
-    }
+//    @Bean
+//    SecurityService securityService(){
+//        return new SecurityServiceImpl();
+//    }
+//
+//    @Bean
+//    AuthenticationProvider authenticationProvider(){
+//        CustomAuthProvider provider = new CustomAuthProvider();
+//        return provider;
+//    }
 }

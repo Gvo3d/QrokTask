@@ -13,11 +13,11 @@ public class SecurityServiceImpl implements SecurityService {
     private AuthenticationProvider authenticationProvider;
 
     @Override
-    public boolean authorize(AuthForm authForm) {
+    public String authorize(AuthForm authForm) {
         Authentication authentication = new CustomAuthenticationToken(authForm.getUsername(), authForm.getPassword());
         Authentication result = authenticationProvider.authenticate(authentication);
         if (null!=result) {
-            return result.isAuthenticated();
-        } else return false;
+            return (String) result.getPrincipal();
+        } else return null;
     }
 }

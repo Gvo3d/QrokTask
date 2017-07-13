@@ -7,7 +7,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import qroktask.security.AuthorizedUser;
 import qroktask.security.Role;
@@ -30,26 +29,17 @@ public class CustomAuthProvider implements AuthenticationProvider {
     @Value("${user.password}")
     private String userPass;
 
-    private PasswordEncoder passwordEncoder;
 
     private Set<AuthorizedUser> users;
 
-    public CustomAuthProvider(PasswordEncoder passwordEncoder) {
-        this.passwordEncoder = passwordEncoder;
+    public CustomAuthProvider() {
         this.users = new HashSet<>();
-    }
-
-    public void setUsers(Set<AuthorizedUser> users) {
-        this.users = users;
-        for (AuthorizedUser user:users){
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
-        }
     }
 
     @PostConstruct
     public void makeUsers() {
-        AuthorizedUser user = new AuthorizedUser(userLogin, passwordEncoder.encode(userPass), Role.USER);
-        AuthorizedUser admin = new AuthorizedUser(adminLogin, passwordEncoder.encode(adminPass), Role.ADMIN);
+        AuthorizedUser user = new AuthorizedUser(userLogin, userPass, Role.USER);
+        AuthorizedUser admin = new AuthorizedUser(adminLogin, adminPass, Role.ADMIN);
         users.add(user);
         users.add(admin);
     }
@@ -57,7 +47,7 @@ public class CustomAuthProvider implements AuthenticationProvider {
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String username = authentication.getName();
-        String password = passwordEncoder.encode((String) authentication.getDetails());
+        String password = (String) authentication.getDetails();
         AuthorizedUser user = new AuthorizedUser(username, password);
         for (AuthorizedUser userToAuthorize : users) {
             if (userToAuthorize.equals(user)) {

@@ -57,4 +57,14 @@ public class CustomAuthenticationToken implements Authentication {
     public String getName() {
         return login;
     }
+
+    @Override
+    public String toString() {
+        return "CustomAuthenticationToken{" +
+                "login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                ", role=" + role +
+                ", authenticated=" + authenticated +
+                '}';
+    }
 }

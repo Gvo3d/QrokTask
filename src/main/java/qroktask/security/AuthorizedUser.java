@@ -57,4 +57,13 @@ public class AuthorizedUser {
         result = 31 * result + (getPassword() != null ? getPassword().hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "AuthorizedUser{" +
+                "login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                ", role=" + role +
+                '}';
+    }
 }

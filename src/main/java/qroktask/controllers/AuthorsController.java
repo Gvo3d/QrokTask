@@ -64,7 +64,7 @@ public class AuthorsController {
     }
 
     @RequestMapping(method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_UTF8_VALUE}, consumes = {MediaType.APPLICATION_JSON_UTF8_VALUE})
-    public ResponseEntity<Integer> createAuthor(@RequestBody Author author, HttpServletRequest request){
+    public ResponseEntity<Integer> createAuthor(@RequestBody Author author){
         HttpStatus status;
         Integer result;
         if (author.validate()){
