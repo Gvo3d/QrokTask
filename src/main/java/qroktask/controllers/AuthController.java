@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import qroktask.dto.AuthForm;
+import qroktask.dto.StringDTO;
 import qroktask.security.SecurityService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,18 +28,19 @@ public class AuthController {
     }
 
     @RequestMapping(method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
-    public ResponseEntity<String> authorize(@RequestBody AuthForm authForm, HttpServletRequest request){
+    public ResponseEntity<StringDTO> authorize(@RequestBody AuthForm authForm, HttpServletRequest request){
         HttpStatus status;
-        String result;
+        StringDTO result;
         if (authForm.validate()){
             status = HttpStatus.OK;
-            result = securityService.authorize(authForm);
-            request.getSession().setAttribute(USERSESSIONPARAMETER,result);
+            result = new StringDTO(securityService.autologin(authForm.getUsername(), authForm.getPassword()));
+            request.getSession().setAttribute(USERSESSIONPARAMETER,result.getResponse());
         } else {
             result = null;
+            request.getSession().removeAttribute(USERSESSIONPARAMETER);
             status = HttpStatus.BAD_REQUEST;
         }
-        return new ResponseEntity<String>(result, status);
+        return new ResponseEntity<StringDTO>(result, status);
     }
 
     @RequestMapping(method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
@@ -52,4 +54,6 @@ public class AuthController {
         status = HttpStatus.BAD_REQUEST;
         return new ResponseEntity<Boolean>(false, status);
     }
+
+
 }

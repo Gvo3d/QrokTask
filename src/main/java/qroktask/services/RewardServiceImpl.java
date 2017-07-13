@@ -31,8 +31,14 @@ public class RewardServiceImpl implements RewardService {
     @Override
     public Reward update(Reward reward) {
         if (null!= reward) {
-            return rewardRepository.saveAndFlush(reward);
-        } else return null;
+            Reward fromDB = rewardRepository.getOne(reward.getId());
+            if (null!=reward){
+                fromDB.setRewardTitle(reward.getRewardTitle());
+                fromDB.setRewardYear(reward.getRewardYear());
+                return rewardRepository.saveAndFlush(fromDB);
+            }
+        }
+        return null;
     }
 
     @Override

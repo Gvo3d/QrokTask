@@ -23,13 +23,13 @@ public class AuthorsController {
     @Autowired
     AuthorsService authorsService;
 
-    @JsonView(JacksonMappingMarker.List.class)
+    @JsonView(JacksonMappingMarker.Middle.class)
     @RequestMapping(value="/model",method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
     public Author getModel(){
         return new Author();
     }
 
-    @JsonView(JacksonMappingMarker.List.class)
+    @JsonView(JacksonMappingMarker.Middle.class)
     @RequestMapping(method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
     public ResponseEntity<List<Author>> getAllAuthors(){
         List<Author> rewardsList = (List<Author>) authorsService.getAllAuthors();
@@ -37,7 +37,7 @@ public class AuthorsController {
         return new ResponseEntity<List<Author>>(rewardsList, status);
     }
 
-    @JsonView(JacksonMappingMarker.List.class)
+    @JsonView(JacksonMappingMarker.Middle.class)
     @RequestMapping(value="/{id}",method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
     public ResponseEntity<Author> getOneAuthor(@PathVariable("id") Integer id){
         Author author = authorsService.getOneAuthor(id);
@@ -50,7 +50,7 @@ public class AuthorsController {
         return new ResponseEntity<Author>(author, status);
     }
 
-    @JsonView(JacksonMappingMarker.Data.class)
+    @JsonView(JacksonMappingMarker.Higher.class)
     @RequestMapping(value="/full/{id}",method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
     public ResponseEntity<Author> getFullAuthor(@PathVariable("id") Integer id){
         Author book = authorsService.getOneAuthorFetchAll(id);

@@ -16,19 +16,19 @@ import java.util.List;
  * Created by Gvozd on 12.07.2017.
  */
 @RestController
-@RequestMapping("/rewards/")
+@RequestMapping("/rewards")
 public class RewardController {
 
     @Autowired
     RewardService rewardsService;
 
-    @JsonView(JacksonMappingMarker.List.class)
+    @JsonView(JacksonMappingMarker.Lower.class)
     @RequestMapping(value="/model",method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
     public Reward getModel(){
         return new Reward();
     }
 
-    @JsonView(JacksonMappingMarker.List.class)
+    @JsonView(JacksonMappingMarker.Lower.class)
     @RequestMapping(method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
     public ResponseEntity<List<Reward>> getAllRewards(){
         List<Reward> rewardsList = (List<Reward>) rewardsService.getAllRewards();
@@ -36,7 +36,7 @@ public class RewardController {
         return new ResponseEntity<List<Reward>>(rewardsList, status);
     }
 
-    @JsonView(JacksonMappingMarker.List.class)
+    @JsonView(JacksonMappingMarker.Lower.class)
     @RequestMapping(value="/{id}",method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
     public ResponseEntity<Reward> getOneReward(@PathVariable("id") Integer id){
         Reward reward = rewardsService.getOneReward(id);

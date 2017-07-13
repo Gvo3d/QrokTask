@@ -1,6 +1,8 @@
 package qroktask.models;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import qroktask.models.support.Validatable;
+import qroktask.support.JacksonMappingMarker;
 
 import javax.persistence.*;
 
@@ -13,12 +15,15 @@ public class Reward implements Validatable {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     @Column(name = "Reward_id")
+    @JsonView(JacksonMappingMarker.Lower.class)
     private int id;
 
     @Column(name = "Reward_year")
+    @JsonView(JacksonMappingMarker.Lower.class)
     private int rewardYear;
 
     @Column(name = "Reward_title")
+    @JsonView(JacksonMappingMarker.Lower.class)
     private String rewardTitle;
 
     public int getId() {

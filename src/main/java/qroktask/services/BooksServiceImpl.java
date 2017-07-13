@@ -51,8 +51,17 @@ public class BooksServiceImpl implements BooksService {
     @Override
     public Book update(Book book) {
         if (null!= book) {
-            return booksRepository.saveAndFlush(book);
-        } else return null;
+            Optional<Book> fromDB = booksRepository.getBookFetchAll(entityManager,book.getId());
+            if (fromDB.isPresent()){
+                Book bookFromDb = fromDB.get();
+                bookFromDb.setAuthors(book.getAuthors());
+                bookFromDb.setGenre(book.getGenre());
+                bookFromDb.setTitle(book.getTitle());
+                bookFromDb.setIsbn(book.getIsbn());
+                return booksRepository.saveAndFlush(bookFromDb);
+            }
+        }
+        return null;
     }
 
     @Override

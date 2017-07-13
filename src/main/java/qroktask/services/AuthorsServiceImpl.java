@@ -54,8 +54,19 @@ public class AuthorsServiceImpl implements AuthorsService {
     @Override
     public Author update(Author author) {
         if (null!= author) {
-            return authorsRepository.saveAndFlush(author);
-        } else return null;
+            Optional<Author> fromDB = authorsRepository.getAuthorFetchAll(entityManager,author.getId());
+            if (fromDB.isPresent()){
+                Author authorFromDb = fromDB.get();
+                authorFromDb.setSex(author.getSex());
+                authorFromDb.setBirthDate(author.getBirthDate());
+                authorFromDb.setRewards(author.getRewards());
+                authorFromDb.setBooks(author.getBooks());
+                authorFromDb.setFirstName(author.getFirstName());
+                authorFromDb.setLastName(author.getLastName());
+                return authorsRepository.saveAndFlush(authorFromDb);
+            }
+        }
+        return null;
     }
 
     @Override

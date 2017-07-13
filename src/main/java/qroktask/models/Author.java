@@ -21,38 +21,38 @@ public class Author implements Validatable {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     @Column(name = "Author_id")
-    @JsonView(JacksonMappingMarker.List.class)
+    @JsonView(JacksonMappingMarker.Lower.class)
     private int id;
 
     @Column(name = "First_name")
-    @JsonView(JacksonMappingMarker.List.class)
+    @JsonView(JacksonMappingMarker.Lower.class)
     private String firstName;
 
     @Column(name = "Last_name")
-    @JsonView(JacksonMappingMarker.List.class)
+    @JsonView(JacksonMappingMarker.Lower.class)
     private String lastName;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "Sex")
-    @JsonView(JacksonMappingMarker.List.class)
+    @JsonView(JacksonMappingMarker.Lower.class)
     private Sex sex;
 
     @Column(name = "Birth_date")
-    @JsonView(JacksonMappingMarker.List.class)
+    @JsonView(JacksonMappingMarker.Lower.class)
     private Date birthDate;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Book.class)
     @JoinTable(name = "books_to_authors",
             joinColumns = @JoinColumn(name = "Magazine_author_id"),
             inverseJoinColumns = @JoinColumn(name = "Magazine_book_id"))
-    @JsonView(JacksonMappingMarker.Data.class)
+    @JsonView(JacksonMappingMarker.Higher.class)
     private Set<Book> books = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Reward.class)
     @JoinTable(name = "authors_to_rewards",
             joinColumns = @JoinColumn(name = "Magazine_author_id"),
             inverseJoinColumns = @JoinColumn(name = "Magazine_reward_id"))
-    @JsonView(JacksonMappingMarker.Data.class)
+    @JsonView(JacksonMappingMarker.Higher.class)
     private Set<Reward> rewards = new HashSet<>();
 
     public int getId() {

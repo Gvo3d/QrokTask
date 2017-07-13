@@ -17,7 +17,7 @@ public class AuthorizedUser {
         this.role = null;
     }
 
-    private String getLogin() {
+    public String getLogin() {
         return login;
     }
 

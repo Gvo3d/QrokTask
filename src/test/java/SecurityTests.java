@@ -25,7 +25,7 @@ public class SecurityTests extends AbstractTest{
         AuthForm form = new AuthForm();
         form.setUsername("${user.login}");
         form.setPassword("${user.password}");
-        boolean result = securityService.authorize(form);
+        String result = securityService.authorize(form);
         System.out.println("result="+result);
     }
 }

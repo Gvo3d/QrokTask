@@ -23,13 +23,13 @@ public class BooksController {
     @Autowired
     BooksService booksService;
 
-    @JsonView(JacksonMappingMarker.List.class)
+    @JsonView(JacksonMappingMarker.Middle.class)
     @RequestMapping(value="/model",method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
     public Book getModel(){
         return new Book();
     }
 
-    @JsonView(JacksonMappingMarker.List.class)
+    @JsonView(JacksonMappingMarker.Middle.class)
     @RequestMapping(method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
     public ResponseEntity<List<Book>> getAllBooks(){
         List<Book> rewardsList = (List<Book>) booksService.getAllBooks();
@@ -37,7 +37,7 @@ public class BooksController {
         return new ResponseEntity<List<Book>>(rewardsList, status);
     }
 
-    @JsonView(JacksonMappingMarker.List.class)
+    @JsonView(JacksonMappingMarker.Middle.class)
     @RequestMapping(value="/{id}",method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
     public ResponseEntity<Book> getOneBook(@PathVariable("id") Integer id){
         Book book = booksService.getOneBook(id);
@@ -50,7 +50,7 @@ public class BooksController {
         return new ResponseEntity<Book>(book, status);
     }
 
-    @JsonView(JacksonMappingMarker.Data.class)
+    @JsonView(JacksonMappingMarker.Higher.class)
     @RequestMapping(value="/full/{id}",method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
     public ResponseEntity<Book> getFullBook(@PathVariable("id") Integer id){
         Book book = booksService.getOneBookFetchAll(id);
@@ -77,6 +77,7 @@ public class BooksController {
         return new ResponseEntity<Integer>(result, status);
     }
 
+    @JsonView(JacksonMappingMarker.Middle.class)
     @RequestMapping(value="/{id}",method = RequestMethod.PUT, produces = {MediaType.APPLICATION_JSON_UTF8_VALUE}, consumes = {MediaType.APPLICATION_JSON_UTF8_VALUE})
     public ResponseEntity<Book> updateBook(@PathVariable("id") Integer id, @RequestBody Book book, HttpServletRequest request){
         HttpStatus status;

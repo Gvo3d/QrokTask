@@ -15,7 +15,6 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import qroktask.components.CustomAuthProvider;
 
 @Configuration
@@ -25,10 +24,17 @@ import qroktask.components.CustomAuthProvider;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable();
-        http.httpBasic();
-        http.sessionManagement().sessionFixation().none();
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER);
+//        http.sessionManagement().sessionFixation().none();
+//        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER);
+
+        http.csrf().disable().httpBasic();
+
+        http
+                .authorizeRequests()
+                .antMatchers("/auth").permitAll()
+                .antMatchers("/auth/**").permitAll()
+                .antMatchers("/author/**").hasAuthority("ADMIN")
+                .antMatchers("/**").hasAnyAuthority("ADMIN", "USER");
     }
 
     @Autowired
@@ -38,8 +44,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     AuthenticationProvider authenticationProvider(){
-        CustomAuthProvider authenticationProvider = new CustomAuthProvider();
-        return authenticationProvider;
+        return new CustomAuthProvider();
     }
 
 }

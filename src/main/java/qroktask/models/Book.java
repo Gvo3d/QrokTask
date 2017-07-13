@@ -18,27 +18,27 @@ public class Book implements Validatable {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     @Column(name = "Book_id")
-    @JsonView(JacksonMappingMarker.List.class)
+    @JsonView(JacksonMappingMarker.Middle.class)
     private int id;
 
     @Column(name = "Title")
-    @JsonView(JacksonMappingMarker.List.class)
+    @JsonView(JacksonMappingMarker.Lower.class)
     private String title;
 
     @Column(name = "ISBN")
-    @JsonView(JacksonMappingMarker.List.class)
+    @JsonView(JacksonMappingMarker.Middle.class)
     private String isbn;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "Genre")
-    @JsonView(JacksonMappingMarker.List.class)
+    @JsonView(JacksonMappingMarker.Middle.class)
     private Genre genre;
 
     @ManyToMany(fetch = FetchType.LAZY, targetEntity = Author.class)
     @JoinTable(name = "books_to_authors",
             joinColumns = @JoinColumn(name = "Magazine_book_id"),
             inverseJoinColumns = @JoinColumn(name = "Magazine_author_id"))
-    @JsonView(JacksonMappingMarker.Data.class)
+    @JsonView(JacksonMappingMarker.BookHigher.class)
     private Set<Author> authors = new HashSet<>();
 
     public int getId() {

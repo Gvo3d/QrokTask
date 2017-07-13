@@ -4,7 +4,11 @@ package qroktask.support;
  * Created by Lenovo on 22.05.2017.
  */
 public class JacksonMappingMarker {
-    public static class List{};
+    public static class Lower {};
 
-    public static class Data extends List {};
+    public static class Middle extends Lower {};
+
+    public static class Higher extends Middle {};
+
+    public static class BookHigher extends Middle {};
 }
