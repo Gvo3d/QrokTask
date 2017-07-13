@@ -17,7 +17,7 @@ public class AuthorizedUser {
         this.role = null;
     }
 
-    public String getLogin() {
+    private String getLogin() {
         return login;
     }
 
@@ -48,8 +48,7 @@ public class AuthorizedUser {
 
         AuthorizedUser that = (AuthorizedUser) o;
 
-        if (getLogin() != null ? !getLogin().equals(that.getLogin()) : that.getLogin() != null) return false;
-        return getPassword() != null ? getPassword().equals(that.getPassword()) : that.getPassword() == null;
+        return (getLogin() != null ? getLogin().equals(that.getLogin()) : that.getLogin() == null) && (getPassword() != null ? getPassword().equals(that.getPassword()) : that.getPassword() == null);
     }
 
     @Override

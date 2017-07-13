@@ -8,9 +8,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-/**
- * Created by Gvozd on 13.07.2017.
- */
 public class CustomAuthenticationToken implements Authentication {
 
     private String login;
@@ -18,7 +15,7 @@ public class CustomAuthenticationToken implements Authentication {
     private Role role;
     private boolean authenticated;
 
-    public CustomAuthenticationToken(String login, String password) {
+    CustomAuthenticationToken(String login, String password) {
         this.login = login;
         this.password = password;
     }

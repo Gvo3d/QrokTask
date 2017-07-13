@@ -10,11 +10,14 @@ import qroktask.dto.AuthForm;
 public class SecurityServiceImpl implements SecurityService {
 
     @Autowired
-    AuthenticationProvider authenticationProvider;
+    private AuthenticationProvider authenticationProvider;
 
     @Override
     public boolean authorize(AuthForm authForm) {
         Authentication authentication = new CustomAuthenticationToken(authForm.getUsername(), authForm.getPassword());
-        return authenticationProvider.authenticate(authentication).isAuthenticated();
+        Authentication result = authenticationProvider.authenticate(authentication);
+        if (null!=result) {
+            return result.isAuthenticated();
+        } else return false;
     }
 }

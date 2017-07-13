@@ -37,7 +37,13 @@ public class CustomAuthProvider implements AuthenticationProvider {
     public CustomAuthProvider(PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
         this.users = new HashSet<>();
+    }
 
+    public void setUsers(Set<AuthorizedUser> users) {
+        this.users = users;
+        for (AuthorizedUser user:users){
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
     }
 
     @PostConstruct
@@ -51,7 +57,7 @@ public class CustomAuthProvider implements AuthenticationProvider {
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String username = authentication.getName();
-        String password = (String) authentication.getDetails();
+        String password = passwordEncoder.encode((String) authentication.getDetails());
         AuthorizedUser user = new AuthorizedUser(username, password);
         for (AuthorizedUser userToAuthorize : users) {
             if (userToAuthorize.equals(user)) {

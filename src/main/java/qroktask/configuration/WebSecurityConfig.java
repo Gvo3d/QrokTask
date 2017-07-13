@@ -45,8 +45,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     AuthenticationProvider authenticationProvider(){
-        CustomAuthProvider authenticationProvider = new CustomAuthProvider();
-        authenticationProvider.setPasswordEncoder(encoder());
+        CustomAuthProvider authenticationProvider = new CustomAuthProvider(encoder());
         return authenticationProvider;
     }
 
