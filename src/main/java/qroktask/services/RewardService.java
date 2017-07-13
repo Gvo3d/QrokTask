@@ -8,7 +8,8 @@ import qroktask.models.Reward;
 public interface RewardService {
     Iterable<Reward> getAllRewards();
     Reward getOneReward(Integer id);
-    Reward createOrUpdateReward(Reward reward);
+    Reward create(Reward reward);
+    Reward update(Reward reward);
     Boolean exists(Integer id);
     Boolean delete(Integer id);
 }

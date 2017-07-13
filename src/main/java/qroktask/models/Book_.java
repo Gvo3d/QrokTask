@@ -1,6 +1,6 @@
 package qroktask.models;
 
-import qroktask.models.support.Genre;
+import qroktask.models.enums.Genre;
 
 import javax.persistence.metamodel.SetAttribute;
 import javax.persistence.metamodel.SingularAttribute;

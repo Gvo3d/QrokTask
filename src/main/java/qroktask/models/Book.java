@@ -1,8 +1,9 @@
 package qroktask.models;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import qroktask.models.support.Validatable;
 import qroktask.support.JacksonMappingMarker;
-import qroktask.models.support.Genre;
+import qroktask.models.enums.Genre;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -12,7 +13,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
 @Table(name="Books")
-public class Book {
+public class Book implements Validatable {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -129,5 +130,10 @@ public class Book {
                 ", genre=" + genre +
                 ", authors=" + authors +
                 '}';
+    }
+
+    @Override
+    public boolean validate() {
+        return (null!=title && null!=isbn && genre!=null);
     }
 }

@@ -42,9 +42,16 @@ public class BooksServiceImpl implements BooksService {
     }
 
     @Override
-    public Book createOrUpdateBook(Book book) {
+    public Book create(Book book) {
         if (null!= book) {
             return booksRepository.save(book);
+        } else return null;
+    }
+
+    @Override
+    public Book update(Book book) {
+        if (null!= book) {
+            return booksRepository.saveAndFlush(book);
         } else return null;
     }
 

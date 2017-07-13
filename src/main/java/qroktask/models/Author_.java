@@ -1,6 +1,6 @@
 package qroktask.models;
 
-import qroktask.models.support.Sex;
+import qroktask.models.enums.Sex;
 
 import javax.persistence.metamodel.SetAttribute;
 import javax.persistence.metamodel.SingularAttribute;

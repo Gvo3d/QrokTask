@@ -1,4 +1,4 @@
-package qroktask.models.support;
+package qroktask.models.enums;
 
 public enum Sex { MALE, FEMALE, OTHER
 }

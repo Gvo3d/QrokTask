@@ -1,12 +1,14 @@
 package qroktask.models;
 
+import qroktask.models.support.Validatable;
+
 import javax.persistence.*;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
 @Table(name="Rewards")
-public class Reward {
+public class Reward implements Validatable {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -70,5 +72,10 @@ public class Reward {
                 ", rewardYear=" + rewardYear +
                 ", rewardTitle='" + rewardTitle + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean validate() {
+        return (null!=rewardTitle && rewardYear!=0);
     }
 }

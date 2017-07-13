@@ -7,7 +7,8 @@ public interface BooksService {
     Book getOneBook(Integer id);
     Iterable<Book> getAllBooksFetchAll();
     Book getOneBookFetchAll(Integer id);
-    Book createOrUpdateBook(Book book);
+    Book create(Book book);
+    Book update(Book book);
     Boolean exists(Integer id);
     Boolean delete(Integer id);
 }

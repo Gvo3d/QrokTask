@@ -1,6 +1,6 @@
 package qroktask.dao;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 import qroktask.models.Book;
 import qroktask.models.Book_;
 
@@ -12,7 +12,7 @@ import javax.persistence.criteria.Root;
 import java.util.Collections;
 import java.util.Optional;
 
-public interface BooksRepository extends CrudRepository<Book, Integer> {
+public interface BooksRepository extends JpaRepository<Book, Integer> {
     default Iterable<Book> getAllBooksFetchAll(EntityManager entityManager) {
         if (null!= entityManager) {
             CriteriaQuery<Book> query = entityManager.getCriteriaBuilder().createQuery(Book.class);

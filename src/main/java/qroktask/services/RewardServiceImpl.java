@@ -22,9 +22,16 @@ public class RewardServiceImpl implements RewardService {
     }
 
     @Override
-    public Reward createOrUpdateReward(Reward reward) {
+    public Reward create(Reward reward) {
         if (null!= reward) {
             return rewardRepository.save(reward);
+        } else return null;
+    }
+
+    @Override
+    public Reward update(Reward reward) {
+        if (null!= reward) {
+            return rewardRepository.saveAndFlush(reward);
         } else return null;
     }
 
