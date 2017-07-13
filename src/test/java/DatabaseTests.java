@@ -113,7 +113,7 @@ public class DatabaseTests extends AbstractTest {
         Reward reward = new Reward();
         reward.setRewardYear(2017);
         reward.setRewardTitle("TemporaryReward");
-        Reward fromDatabase = rewardService.createOrUpdateReward(reward);
+        Reward fromDatabase = rewardService.create(reward);
         System.out.println(fromDatabase.toString());
         System.out.println(SEPARATOR);
         Assert.assertNotNull(fromDatabase);
@@ -166,7 +166,7 @@ public class DatabaseTests extends AbstractTest {
         book.setTitle("Title");
         Author author = authorsService.getOneAuthor(2);
         book.addAuthor(author);
-        Book fromDatabase = booksService.createOrUpdateBook(book);
+        Book fromDatabase = booksService.create(book);
         Assert.assertNotNull(fromDatabase);
         Assert.assertEquals(book.getTitle(), fromDatabase.getTitle());
         Assert.assertEquals(book.getIsbn(), fromDatabase.getIsbn());

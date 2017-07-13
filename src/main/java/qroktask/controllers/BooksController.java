@@ -24,6 +24,12 @@ public class BooksController {
     BooksService booksService;
 
     @JsonView(JacksonMappingMarker.List.class)
+    @RequestMapping(value="/model",method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
+    public Book getModel(){
+        return new Book();
+    }
+
+    @JsonView(JacksonMappingMarker.List.class)
     @RequestMapping(method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
     public ResponseEntity<List<Book>> getAllBooks(){
         List<Book> rewardsList = (List<Book>) booksService.getAllBooks();
@@ -41,7 +47,20 @@ public class BooksController {
         } else {
             status = HttpStatus.BAD_REQUEST;
         }
-        return new ResponseEntity<List<Book>>(book, status);
+        return new ResponseEntity<Book>(book, status);
+    }
+
+    @JsonView(JacksonMappingMarker.Data.class)
+    @RequestMapping(value="/full/{id}",method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
+    public ResponseEntity<Book> getFullBook(@PathVariable("id") Integer id){
+        Book book = booksService.getOneBookFetchAll(id);
+        HttpStatus status;
+        if (null!=book){
+            status = HttpStatus.OK;
+        } else {
+            status = HttpStatus.BAD_REQUEST;
+        }
+        return new ResponseEntity<Book>(book, status);
     }
 
     @RequestMapping(method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_UTF8_VALUE}, consumes = {MediaType.APPLICATION_JSON_UTF8_VALUE})

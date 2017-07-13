@@ -24,6 +24,12 @@ public class AuthorsController {
     AuthorsService authorsService;
 
     @JsonView(JacksonMappingMarker.List.class)
+    @RequestMapping(value="/model",method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
+    public Author getModel(){
+        return new Author();
+    }
+
+    @JsonView(JacksonMappingMarker.List.class)
     @RequestMapping(method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
     public ResponseEntity<List<Author>> getAllAuthors(){
         List<Author> rewardsList = (List<Author>) authorsService.getAllAuthors();
@@ -41,7 +47,20 @@ public class AuthorsController {
         } else {
             status = HttpStatus.BAD_REQUEST;
         }
-        return new ResponseEntity<List<Author>>(author, status);
+        return new ResponseEntity<Author>(author, status);
+    }
+
+    @JsonView(JacksonMappingMarker.Data.class)
+    @RequestMapping(value="/full/{id}",method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
+    public ResponseEntity<Author> getFullAuthor(@PathVariable("id") Integer id){
+        Author book = authorsService.getOneAuthorFetchAll(id);
+        HttpStatus status;
+        if (null!=book){
+            status = HttpStatus.OK;
+        } else {
+            status = HttpStatus.BAD_REQUEST;
+        }
+        return new ResponseEntity<Author>(book, status);
     }
 
     @RequestMapping(method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_UTF8_VALUE}, consumes = {MediaType.APPLICATION_JSON_UTF8_VALUE})
