@@ -3,8 +3,11 @@ package qroktask.services;
 import qroktask.models.Author;
 
 public interface AuthorsService {
-    public Iterable<Author> getAllAuthors();
-    public Iterable<Author> getAllAuthorsFetchAll();
-    public Author getOneAuthor(Integer id);
-
+    Iterable<Author> getAllAuthors();
+    Iterable<Author> getAllAuthorsFetchAll();
+    Author getOneAuthor(Integer id);
+    Author getOneAuthorFetchAll(Integer id);
+    Author createOrUpdateAuthor(Author author);
+    Boolean exists(Integer id);
+    Boolean delete(Integer id);
 }

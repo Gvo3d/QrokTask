@@ -32,3 +32,7 @@ insert into books_to_authors (Magazine_author_id, Magazine_book_id) values (2, 2
 insert into books_to_authors (Magazine_author_id, Magazine_book_id) values (3, 3);
 insert into books_to_authors (Magazine_author_id, Magazine_book_id) values (4, 4);
 insert into books_to_authors (Magazine_author_id, Magazine_book_id) values (5, 5);
+insert into books_to_authors (Magazine_author_id, Magazine_book_id) values (1, 3);
+insert into books_to_authors (Magazine_author_id, Magazine_book_id) values (2, 1);
+insert into books_to_authors (Magazine_author_id, Magazine_book_id) values (3, 1);
+insert into books_to_authors (Magazine_author_id, Magazine_book_id) values (4, 2);

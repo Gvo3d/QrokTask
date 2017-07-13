@@ -3,7 +3,11 @@ package qroktask.services;
 import qroktask.models.Book;
 
 public interface BooksService {
-    public Iterable<Book> getAllBooks();
-    public Book getOneBook(Integer id);
-
+    Iterable<Book> getAllBooks();
+    Book getOneBook(Integer id);
+    Iterable<Book> getAllBooksFetchAll();
+    Book getOneBookFetchAll(Integer id);
+    Book createOrUpdateBook(Book book);
+    Boolean exists(Integer id);
+    Boolean delete(Integer id);
 }

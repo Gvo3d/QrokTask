@@ -1,7 +1,7 @@
 package qroktask.models;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import qroktask.dao.JacksonMappingMarker;
+import qroktask.support.JacksonMappingMarker;
 import qroktask.models.support.Genre;
 
 import javax.persistence.*;
@@ -101,13 +101,24 @@ public class Book {
         return result;
     }
 
-        @Override
+    @Override
     public String toString() {
         return "Book{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", isbn='" + isbn + '\'' +
                 ", genre=" + genre +
+                '}';
+    }
+
+
+    public String toStringWithAll() {
+        return "Book{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", isbn='" + isbn + '\'' +
+                ", genre=" + genre +
+                ", authors=" + authors +
                 '}';
     }
 }

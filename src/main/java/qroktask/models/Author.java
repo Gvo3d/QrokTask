@@ -1,7 +1,7 @@
 package qroktask.models;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import qroktask.dao.JacksonMappingMarker;
+import qroktask.support.JacksonMappingMarker;
 import qroktask.models.support.Sex;
 
 import javax.persistence.*;

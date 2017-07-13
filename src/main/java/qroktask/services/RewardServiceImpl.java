@@ -5,14 +5,11 @@ import org.springframework.stereotype.Service;
 import qroktask.dao.RewardRepository;
 import qroktask.models.Reward;
 
-/**
- * Created by Gvozd on 12.07.2017.
- */
 @Service
 public class RewardServiceImpl implements RewardService {
 
     @Autowired
-    RewardRepository rewardRepository;
+    private RewardRepository rewardRepository;
 
     @Override
     public Iterable<Reward> getAllRewards() {
@@ -22,5 +19,30 @@ public class RewardServiceImpl implements RewardService {
     @Override
     public Reward getOneReward(Integer id) {
         return rewardRepository.findOne(id);
+    }
+
+    @Override
+    public Reward createOrUpdateReward(Reward reward) {
+        if (null!= reward) {
+            return rewardRepository.save(reward);
+        } else return null;
+    }
+
+    @Override
+    public Boolean exists(Integer id) {
+        if (null != id) {
+            return rewardRepository.exists(id);
+        } else return false;
+    }
+
+    @Override
+    public Boolean delete(Integer id) {
+        if (null != id) {
+            if (rewardRepository.exists(id)) {
+                rewardRepository.delete(id);
+                return true;
+            }
+        }
+        return false;
     }
 }
