@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.TransactionManagementConfigurer;
 
 import javax.sql.DataSource;
+import java.sql.SQLException;
 import java.util.Locale;
 import java.util.Properties;
 
@@ -40,6 +41,8 @@ public class JDBCConfiguration implements TransactionManagementConfigurer {
     public DataSource dataSource() {
         Locale.setDefault(Locale.ENGLISH);
         try {
+            System.out.println("*********************************************");
+            System.out.println("Loading "+driver);
             Class.forName(driver);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
@@ -52,6 +55,12 @@ public class JDBCConfiguration implements TransactionManagementConfigurer {
                 .addScript("sql/datainsertion.sql")
                 .build();
         return db;
+    }
+
+    // Start WebServer, access http://localhost:8082
+    @Bean(initMethod = "start", destroyMethod = "stop")
+    public org.h2.tools.Server startDBWebManager() throws SQLException {
+        return org.h2.tools.Server.createWebServer();
     }
 
     @Bean(name = "transactionManager")
