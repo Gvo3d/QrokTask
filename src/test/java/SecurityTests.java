@@ -1,4 +1,5 @@
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
+import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -26,6 +27,6 @@ public class SecurityTests extends AbstractTest{
         form.setUsername("${user.login}");
         form.setPassword("${user.password}");
         String result = securityService.autologin(form.getUsername(), form.getPassword());
-        System.out.println("result="+result);
+        Assert.assertEquals("${user.login}", result);
     }
 }
