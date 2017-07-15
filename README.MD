@@ -4,7 +4,7 @@ denis.yakimov89@gmail.com
 +380676832268
 
 To start:
-gredlew.bat clean bootRun
+gradlew.bat clean bootRun
 
 Authorization can be made from /auth/ controller.
 For example:
