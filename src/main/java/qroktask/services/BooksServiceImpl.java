@@ -6,17 +6,11 @@ import org.springframework.transaction.annotation.Transactional;
 import qroktask.dao.BooksRepository;
 import qroktask.models.Book;
 
-import javax.persistence.EntityManager;
-import java.util.Optional;
-
 @Service
 public class BooksServiceImpl implements BooksService {
 
     @Autowired
     private BooksRepository booksRepository;
-
-    @Autowired
-    private EntityManager entityManager;
 
     @Override
     public Iterable<Book> getAllBooks() {
@@ -31,14 +25,19 @@ public class BooksServiceImpl implements BooksService {
     @Override
     @Transactional
     public Iterable<Book> getAllBooksFetchAll() {
-        return booksRepository.getAllBooksFetchAll(entityManager);
+        Iterable<Book> iterable = booksRepository.findAll();
+        for (Book book:iterable){
+            book.getAuthors().size();
+        }
+        return iterable;
     }
 
     @Override
     @Transactional
     public Book getOneBookFetchAll(Integer id) {
-        Optional<Book> result =  booksRepository.getBookFetchAll(entityManager,id);
-        return result.orElse(null);
+        Book book = booksRepository.findOne(id);
+        book.getAuthors().size();
+        return book;
     }
 
     @Override
@@ -49,16 +48,16 @@ public class BooksServiceImpl implements BooksService {
     }
 
     @Override
+    @Transactional
     public Book update(Book book) {
         if (null!= book) {
-            Optional<Book> fromDB = booksRepository.getBookFetchAll(entityManager,book.getId());
-            if (fromDB.isPresent()){
-                Book bookFromDb = fromDB.get();
-                bookFromDb.setAuthors(book.getAuthors());
-                bookFromDb.setGenre(book.getGenre());
-                bookFromDb.setTitle(book.getTitle());
-                bookFromDb.setIsbn(book.getIsbn());
-                return booksRepository.saveAndFlush(bookFromDb);
+            Book fromDB = getOneBookFetchAll(book.getId());
+            if (null!=fromDB){
+                fromDB.setAuthors(book.getAuthors());
+                fromDB.setGenre(book.getGenre());
+                fromDB.setTitle(book.getTitle());
+                fromDB.setIsbn(book.getIsbn());
+                return booksRepository.saveAndFlush(fromDB);
             }
         }
         return null;

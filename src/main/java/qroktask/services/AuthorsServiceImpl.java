@@ -5,9 +5,7 @@ import org.springframework.stereotype.Service;
 import qroktask.dao.AuthorsRepository;
 import qroktask.models.Author;
 
-import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
-import java.util.Optional;
 
 /**
  * Created by Gvozd on 12.07.2017.
@@ -18,9 +16,6 @@ public class AuthorsServiceImpl implements AuthorsService {
     @Autowired
     private AuthorsRepository authorsRepository;
 
-    @Autowired
-    private EntityManager entityManager;
-
     @Override
     public Iterable<Author> getAllAuthors() {
         return authorsRepository.findAll();
@@ -29,7 +24,12 @@ public class AuthorsServiceImpl implements AuthorsService {
     @Override
     @Transactional
     public Iterable<Author> getAllAuthorsFetchAll() {
-        return authorsRepository.getAllAuthorsFetchAll(entityManager);
+        Iterable<Author> iterable = authorsRepository.findAll();
+        for (Author author:iterable){
+            author.getBooks().size();
+            author.getRewards().size();
+        }
+        return iterable;
     }
 
     @Override
@@ -40,8 +40,10 @@ public class AuthorsServiceImpl implements AuthorsService {
     @Override
     @Transactional
     public Author getOneAuthorFetchAll(Integer id) {
-        Optional<Author> result = authorsRepository.getAuthorFetchAll(entityManager,id);
-        return result.orElse(null);
+        Author author = authorsRepository.findOne(id);
+        author.getBooks().size();
+        author.getRewards().size();
+        return author;
     }
 
     @Override
@@ -52,18 +54,18 @@ public class AuthorsServiceImpl implements AuthorsService {
     }
 
     @Override
+    @Transactional
     public Author update(Author author) {
         if (null!= author) {
-            Optional<Author> fromDB = authorsRepository.getAuthorFetchAll(entityManager,author.getId());
-            if (fromDB.isPresent()){
-                Author authorFromDb = fromDB.get();
-                authorFromDb.setSex(author.getSex());
-                authorFromDb.setBirthDate(author.getBirthDate());
-                authorFromDb.setRewards(author.getRewards());
-                authorFromDb.setBooks(author.getBooks());
-                authorFromDb.setFirstName(author.getFirstName());
-                authorFromDb.setLastName(author.getLastName());
-                return authorsRepository.saveAndFlush(authorFromDb);
+            Author fromDB = getOneAuthorFetchAll(author.getId());
+            if (null!=fromDB){
+                fromDB.setSex(author.getSex());
+                fromDB.setBirthDate(author.getBirthDate());
+                fromDB.setRewards(author.getRewards());
+                fromDB.setBooks(author.getBooks());
+                fromDB.setFirstName(author.getFirstName());
+                fromDB.setLastName(author.getLastName());
+                return authorsRepository.saveAndFlush(fromDB);
             }
         }
         return null;

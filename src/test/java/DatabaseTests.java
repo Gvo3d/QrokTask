@@ -100,7 +100,7 @@ public class DatabaseTests extends AbstractTest {
     }
 
     @Test
-    public void testFindBookFetchAll() {
+    public void testFindOneBookFetchAll() {
         int bookId = 1;
         Book book = booksService.getOneBookFetchAll(bookId);
         System.out.println(book.toStringWithAll());
